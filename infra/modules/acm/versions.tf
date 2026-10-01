@@ -1,13 +1,9 @@
-
 terraform {
 
   required_providers {
-    aws = {
-      version = "~> 6.0"
-      source  = "hashicorp/aws"
-    }
 
-    cloudflare = {
+
+cloudflare = {
       version = "~> 5.0"
       source  = "cloudflare/cloudflare"
     }
@@ -16,13 +12,3 @@ terraform {
 
   # Shown for completeness but only used for specific cases     
 }
-
-
-
-provider "aws" {
-  region = "eu-north-1"
-
-}
-
-
-provider "cloudflare" {}
