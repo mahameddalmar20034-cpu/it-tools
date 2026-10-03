@@ -26,9 +26,8 @@ module "alb" {
 
 module "acm" {
   source             = "./modules/acm"
-  domain_name        = "it.modalmar.co.uk"
-  cloudflare_zone_id = "fe6f4d403b316ca868cf9734f2d76ab8"
-
+  domain_name        = var.domain_name
+  cloudflare_zone_id = var.cloudflare_zone_id
 }
 
 
