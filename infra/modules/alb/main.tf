@@ -65,6 +65,19 @@ resource "aws_lb_listener" "http-it-tools" {
 }
 
 
+resource "cloudflare_dns_record" "site" {
+  
+
+  name    = var.domain_name
+  content = aws_lb.it-tools.dns_name
+  ttl     = 60
+  type    = "CNAME"
+  zone_id = var.cloudflare_zone_id
+  proxied = false
+}
+
+
+
 
 
 

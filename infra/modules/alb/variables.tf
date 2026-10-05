@@ -22,3 +22,12 @@ variable "certificate_arn" {
 }
 
 
+variable "domain_name" { 
+  description = "The domain name for the ACM certificate"
+  type = string
+}
+
+variable "cloudflare_zone_id" {
+  description = "The cloudflare zone ID for the domain"
+  type = string
+ }

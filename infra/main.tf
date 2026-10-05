@@ -13,12 +13,13 @@ module "security" {
 }
 
 module "alb" {
-  source            = "./modules/alb"
-  alb_sg_id         = module.security.alb_sg_id
-  public_subnet_ids = module.vpc.public_subnet_ids
-  vpc_id            = module.vpc.vpc_id
-  certificate_arn   = module.acm.certificate_arn
-
+  source             = "./modules/alb"
+  alb_sg_id          = module.security.alb_sg_id
+  public_subnet_ids  = module.vpc.public_subnet_ids
+  vpc_id             = module.vpc.vpc_id
+  certificate_arn    = module.acm.certificate_arn
+  domain_name        = var.domain_name
+  cloudflare_zone_id = var.cloudflare_zone_id
 
 
 
@@ -31,4 +32,10 @@ module "acm" {
 }
 
 
-
+module "ecs" {
+  source            = "./modules/ecs"
+  repository_url    = module.ecr.repository_url
+  public_subnet_ids = module.vpc.public_subnet_ids
+  task_sg_id        = module.security.task_sg_id
+  target_group_arn  = module.alb.target_group_arn
+}
