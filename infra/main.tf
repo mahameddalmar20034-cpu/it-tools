@@ -39,3 +39,10 @@ module "ecs" {
   task_sg_id        = module.security.task_sg_id
   target_group_arn  = module.alb.target_group_arn
 }
+
+
+module "cicd" {
+  source         = "./modules/cicd"
+  repository_arn = module.ecr.repository_arn
+  service_arn    = module.ecs.service_arn
+}

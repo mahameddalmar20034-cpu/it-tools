@@ -1,7 +1,7 @@
 resource "aws_ecs_cluster" "it-tools" {
   name = "it-tools-cluster"
 
-  
+
 }
 
 
@@ -9,9 +9,9 @@ resource "aws_cloudwatch_log_group" "it-tools" {
   name = "ecs-log-group"
 
   tags = {
-    Name= "ecs-log-group"
+    Name              = "ecs-log-group"
     retention_in_days = 7
-    
+
   }
 }
 
@@ -56,27 +56,27 @@ resource "aws_iam_role_policy_attachment" "it-tools" {
 
 resource "aws_ecs_task_definition" "it-tools" {
   family = "it-tools-service"
-  
-  cpu= "256"
-  memory = "512"
+
+  cpu                      = "256"
+  memory                   = "512"
   requires_compatibilities = ["FARGATE"]
-   network_mode             = "awsvpc"
-   execution_role_arn       = aws_iam_role.it-tools.arn
+  network_mode             = "awsvpc"
+  execution_role_arn       = aws_iam_role.it-tools.arn
   container_definitions = jsonencode([
     {
-      name      = "Main"
-      image     = "${var.repository_url}:latest"
-      
+      name  = "Main"
+      image = "${var.repository_url}:latest"
+
       essential = true
 
       logConfiguration = {
-  logDriver = "awslogs"
-  options = {
-    "awslogs-group"         = aws_cloudwatch_log_group.it-tools.name
-    "awslogs-region"        = "eu-north-1"
-    "awslogs-stream-prefix" = "ecs"
-  }
-}
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group"         = aws_cloudwatch_log_group.it-tools.name
+          "awslogs-region"        = "eu-north-1"
+          "awslogs-stream-prefix" = "ecs"
+        }
+      }
       portMappings = [
         {
           containerPort = 80
@@ -84,10 +84,10 @@ resource "aws_ecs_task_definition" "it-tools" {
         }
       ]
     },
-    
+
   ])
 
-  
+
 
 }
 
@@ -97,13 +97,13 @@ resource "aws_ecs_service" "it-tools" {
   cluster         = aws_ecs_cluster.it-tools.id
   task_definition = aws_ecs_task_definition.it-tools.arn
   desired_count   = 1
-  launch_type = "FARGATE"
+  launch_type     = "FARGATE"
 
   network_configuration {
-  subnets          = var.public_subnet_ids
-  security_groups  = [var.task_sg_id]
-  assign_public_ip = true
-}
+    subnets          = var.public_subnet_ids
+    security_groups  = [var.task_sg_id]
+    assign_public_ip = true
+  }
 
   load_balancer {
     target_group_arn = var.target_group_arn
@@ -111,5 +111,5 @@ resource "aws_ecs_service" "it-tools" {
     container_port   = 80
   }
 
- 
+
 }

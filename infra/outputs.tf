@@ -10,3 +10,7 @@ output "repository_url" {
 
 
 
+output "github_actions_role_arn" {
+  description = "ARN of the IAM role that Github actions assumes"
+  value       = module.cicd.role_arn
+}
