@@ -23,10 +23,9 @@ resource "aws_iam_role" "github_actions" {
         },
         "Action" : "sts:AssumeRoleWithWebIdentity",
         "Condition" : {
-          "StringLike" : {
-            "token.actions.githubusercontent.com:sub" : "repo:mahameddalmar20034-cpu/it-tools:*"
-          },
           "StringEquals" : {
+            "token.actions.githubusercontent.com:sub" : "repo:mahameddalmar20034-cpu/it-tools:ref:refs/heads/main",
+
             "token.actions.githubusercontent.com:aud" : "sts.amazonaws.com"
           }
         }
